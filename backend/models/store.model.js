@@ -22,6 +22,10 @@ const Store = sequelize.define("store", {
     type: DataTypes.FLOAT,
     allowNull: false,
   },
+  direction: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -31,5 +35,5 @@ const Store = sequelize.define("store", {
     },
   },
 });
-//
+
 module.exports = Store;

@@ -35,8 +35,6 @@ function Home() {
     });
   };
   
-  
-
   const handleLocationCheck = () => {
     if (!myLocation.lat || !myLocation.lng) {
       Swal.fire({
@@ -63,14 +61,14 @@ function Home() {
     if (distance <= selectedStore.deliveryRadius) {
       Swal.fire({
         title: "Success!",
-        text: `You are within the delivery zone for ${selectedStore.name}.`,
+        text: `You are within the delivery zone for ${selectedStore.storeName}.`,
         icon: "success",
         confirmButtonText: "OK",
       });
     } else {
       Swal.fire({
         title: "Error!",
-        text: `You are outside the delivery zone for ${selectedStore.name}.`,
+        text: `You are outside the delivery zone for ${selectedStore.storeName}.`,
         icon: "error",
         confirmButtonText: "OK",
       });

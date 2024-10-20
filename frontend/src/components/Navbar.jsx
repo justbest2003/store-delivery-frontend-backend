@@ -10,7 +10,7 @@ const Navbar = () => {
 
   const menus = {
     ROLES_ADMIN: [
-      { name: "เพิ่มข้อมูลอาจารย์", link: "/add" },
+      { name: "เพิ่มร้านค้า", link: "/add" },
     ],
     ROLES_MODERATOR: [
       { name: "เพิ่มข้อมูลอาจารย์", link: "/add" },
@@ -50,10 +50,6 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
             <li><a href='/'>ค้นหาร้านค้า</a></li>
-            <li><a href='/'>คณะอาจารย์</a></li>
-            <li><a href='/'>หลักสูตร</a></li>
-            <li><a href='/'>ข่าวสาร</a></li>
-            <li><a href='/'>เอกสาร</a></li>
             {user &&
             menus[user.roles[0]].map((menuItem) => (
               <li key={menuItem.name}>
@@ -72,14 +68,11 @@ const Navbar = () => {
         { <li>
             <a href="/">ค้นหาร้านค้า</a>
           </li> }
-        { <li>
-            <a href="/">สินค้า</a>
-          </li> }
 
           {user &&
             menus[user.roles[0]].map((menuItem) => (
               <li key={menuItem.name}>
-                <a href={menuItem.link} className='text-red-400 underline'>{menuItem.name}</a>
+                <a href={menuItem.link} className='text-red-600 underline'>{menuItem.name}</a>
               </li>
             ))}
         </ul>

@@ -52,34 +52,52 @@ const Login = () => {
   };
 
   return (
-    <div className="container flex flex-col items-center p-24 mx-auto space-y-6">
-      <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-        <div className="card-body">
-          <h1 className="text-3xl font-bold text-center p-2">ลงชื่อเข้าใช้</h1>
-          <label className="input input-bordered flex items-center gap-2">
+    <div className="container mx-auto max-w-md mt-20 px-4 py-6">
+      <div className="card shadow-lg bg-base-100 p-6 rounded-lg">
+        <h1 className="text-center text-2xl font-bold mb-6">ลงชื่อเข้าใช้</h1>
+
+        <div className="form-control mb-4">
+          <label className="label">
+            <span className="label-text">Username</span>
+          </label>
+          <div className="relative">
+            <input
+              type="text"
+              className="input input-bordered w-full pr-12"
+              placeholder="Username"
+              value={user.username}
+              name="username"
+              onChange={handleChange}
+            />
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
               fill="currentColor"
-              className="h-4 w-4 opacity-70"
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 h-5 w-5 text-gray-500"
             >
               <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
             </svg>
+          </div>
+        </div>
+
+        <div className="form-control mb-6">
+          <label className="label">
+            <span className="label-text">Password</span>
+          </label>
+          <div className="relative">
             <input
-              type="text"
-              name="username"
-              className="grow"
-              placeholder="Username"
-              value={user.username}
+              type="password"
+              className="input input-bordered w-full pr-12"
+              placeholder="Password"
+              value={user.password}
+              name="password"
               onChange={handleChange}
             />
-          </label>
-          <label className="input input-bordered flex items-center gap-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 16 16"
               fill="currentColor"
-              className="h-4 w-4 opacity-70"
+              className="absolute top-1/2 right-3 transform -translate-y-1/2 h-5 w-5 text-gray-500"
             >
               <path
                 fillRule="evenodd"
@@ -87,30 +105,13 @@ const Login = () => {
                 clipRule="evenodd"
               />
             </svg>
-            <input
-              type="password"
-              name="password"
-              className="grow"
-              placeholder="Password"
-              value={user.password}
-              onChange={handleChange}
-            />
-          </label>
-          <div className="flex justify-between items-center">
-            <label className="flex items-center">
-              <input type="checkbox" className="mr-2" />
-              Remember me
-            </label>
-            <a href="#" className="text-blue-500 hover:underline">
-              Forgot password?
-            </a>
           </div>
-          <div className="space-x-2 mt-4 text-center">
-            <button class="btn btn-primary" onClick={handleSubmit}>
-              ยืนยัน
-            </button>
-            <button class="btn btn-error">ยกเลิก</button>
-          </div>
+        </div>
+
+        <div className="flex justify-end space-x-4 form-control mt-6">
+          <button className="btn btn-primary" onClick={handleSubmit}>
+            Login
+          </button>
         </div>
       </div>
     </div>

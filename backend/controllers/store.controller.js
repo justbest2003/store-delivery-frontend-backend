@@ -3,12 +3,12 @@ const Store = require("../models/store.model");
 
 // Create and Save a new Store
 exports.create = async (req, res) => {
-  const { storeName, address, lat, lng, deliveryRadius , userId } = req.body;
+  const { storeName, address, lat, lng, deliveryRadius, direction, userId } = req.body;
 
   // Validate Data
-  if (!storeName || !lat || !lng || !deliveryRadius) {
+  if (!storeName || !lat || !lng || !deliveryRadius || !direction) {
     return res.status(400).send({
-      message: "Store Name, Latitude, Longitude, Delivery Radius, and User ID cannot be empty!",
+      message: "Store Name, Latitude, Longitude, Delivery Radius, Direction and User ID cannot be empty!",
     });
   }
 
@@ -27,6 +27,7 @@ exports.create = async (req, res) => {
       lat: lat, // เปลี่ยน lat เป็น latitude
       lng: lng, // เปลี่ยน long เป็น longitude
       deliveryRadius: deliveryRadius,
+      direction: direction,
       userId: userId,
     };
 
@@ -72,10 +73,29 @@ exports.getById = async (req, res) => {
 // Update a Store
 exports.update = async (req, res) => {
   const id = req.params.id;
+  const { userId } = req.body; // สมมติว่าคุณส่ง userId มาจาก body
+
   try {
+    // ค้นหาร้านค้าที่ต้องการอัปเดต
+    const store = await Store.findByPk(id);
+    if (!store) {
+      return res.status(404).send({
+        message: "Store not found with id " + id,
+      });
+    }
+
+    // ตรวจสอบว่า userId ของผู้ใช้ตรงกับ userId ของร้านค้าที่ต้องการอัปเดตหรือไม่
+    if (store.userId !== userId) {
+      return res.status(403).send({
+        message: "You do not have permission to update this store.",
+      });
+    }
+
+    // ทำการอัปเดตร้านค้า
     const [updated] = await Store.update(req.body, {
       where: { id: id },
     });
+    
     if (updated) {
       res.send({
         message: "Store was updated successfully.",
@@ -92,6 +112,7 @@ exports.update = async (req, res) => {
     });
   }
 };
+
 
 // Delete a Store
 exports.delete = async (req, res) => {

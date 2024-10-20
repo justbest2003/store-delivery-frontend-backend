@@ -2,43 +2,58 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import ProfessorService from "../services/store.service"
+import StoreService from "../services/store.service";
+import { useAuthContext } from "../context/AuthContext";
 
 const Edit = () => {
+  const { user } = useAuthContext();
   const { id } = useParams();
   const navigate = useNavigate();
-  const [professor, setProfessor] = useState({
-    name: "",
-    imageUrl: "",
-    department: "",
-    position : "",
-    email : "",
+  const [store, setStore] = useState({
+    storeName: "",
+    address: "",
+    lat: "",
+    lng: "",
+    deliveryRadius: "",
+    direction: "",
   });
 
   useEffect(() => {
-    ProfessorService.getProfessorById(id).then((response) => {
-      if(response.status === 200){
-        setProfessor(response.data)
+    const fetchStore = async () => {
+      const response = await StoreService.getStoreById(id);
+      if (response.status === 200) {
+        setStore(response.data);
+        // ตรวจสอบว่า user.id ตรงกับ store.userId หรือไม่
+        if (user.id !== response.data.userId) {
+          Swal.fire({
+            title: "Access Denied",
+            text: "You do not have permission to edit this store.",
+            icon: "error",
+          });
+          navigate("/"); // เปลี่ยนเส้นทางไปยังหน้าอื่น
+        }
       }
-    })
-  }, [id]);
+    };
+    fetchStore();
+  }, [id, user, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfessor({ ...professor, [name]: value });
+    setStore({ ...store, [name]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        const response = await ProfessorService.editProfessor(id, professor);
+      const storeWithUser = { ...store, userId: user.id };
+        const response = await StoreService.editStore(id, storeWithUser);
         if (response.status === 200) {
             Swal.fire({
                 title: "Restaurant Updated",
                 text: response.data.message,
                 icon: "success", 
             });
-            navigate("/lecturer"); 
+            navigate("/"); 
         }
     } catch (error) {
         Swal.fire({
@@ -56,76 +71,91 @@ const Edit = () => {
         <form className="card-body">
           <div className="form-control">
             <label className="label">
-              <span className="label-text">ชื่ออาจารย์</span>
+              <span className="label-text">Store Name</span>
             </label>
             <input
               type="text"
-              placeholder="ชื่ออาหาร"
+              placeholder="ชื่อร้านค้า"
               className="input input-bordered"
               required
-              name="name"
-              id="name"
-              value={professor.name}
+              name="storeName"
+              id="storeName"
+              value={store.storeName}
               onChange={handleChange}
             />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">แผนก</span>
+              <span className="label-text">Address</span>
             </label>
             <input
               type="text"
-              placeholder="ชื่อสาขา"
+              placeholder="ที่อยู่"
               className="input input-bordered"
               required
-              name="department"
-              id="department"
-              value={professor.department}
+              name="address"
+              id="address"
+              value={store.address}
               onChange={handleChange}
             />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">ตำแหน่ง</span>
+              <span className="label-text">Latitude</span>
             </label>
             <input
-              type="text"
-              placeholder="รูปอาหาร"
+              type="number"
+              placeholder="ละติจูด"
               className="input input-bordered"
               required
-              name="position"
-              id="position"
-              value={professor.position}
+              name="lat"
+              id="lat"
+              value={store.lat}
               onChange={handleChange}
             />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">อีเมล</span>
+              <span className="label-text">Longitude</span>
             </label>
             <input
-              type="text"
-              placeholder="อีเมล"
+              type="number"
+              placeholder="ลองจิจูด"
               className="input input-bordered"
               required
-              name="email"
-              id="email"
-              value={professor.email}
+              name="lng"
+              id="lng"
+              value={store.lng}
               onChange={handleChange}
             />
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">URL รูปโปรไฟล์</span>
+              <span className="label-text">Delivery Radius</span>
+            </label>
+            <input
+              type="number"
+              placeholder="ระยะการจัดส่ง (กม.)"
+              className="input input-bordered"
+              required
+              name="deliveryRadius"
+              id="deliveryRadius"
+              value={store.deliveryRadius}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Direction</span>
             </label>
             <input
               type="text"
-              placeholder="รูปโปรไฟล์"
+              placeholder="ระยะการจัดส่ง (กม.)"
               className="input input-bordered"
               required
-              name="imageUrl"
-              id="imageUrl"
-              value={professor.imageUrl}
+              name="direction"
+              id="direction"
+              value={store.direction}
               onChange={handleChange}
             />
           </div>

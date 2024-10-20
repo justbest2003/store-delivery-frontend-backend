@@ -10,7 +10,7 @@ const Add = () => {
     lat: "",
     lng: "",
     deliveryRadius: "",
-    
+    direction: "",
   });
 
   const handleChange = (e) => {
@@ -37,6 +37,7 @@ const Add = () => {
           lat: "",
           lng: "",
           deliveryRadius: "",
+          direction: "",
         });
       }
     } catch (error) {
@@ -55,7 +56,7 @@ const Add = () => {
         <form className="card-body" onSubmit={handleSubmit}>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">ชื่อร้านค้า</span>
+              <span className="label-text">Store Name</span>
             </label>
             <input
               type="text"
@@ -69,7 +70,7 @@ const Add = () => {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">ที่อยู่</span>
+              <span className="label-text">Address</span>
             </label>
             <input
               type="text"
@@ -83,7 +84,7 @@ const Add = () => {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">ละติจูด</span>
+              <span className="label-text">Latitude</span>
             </label>
             <input
               type="text"
@@ -97,7 +98,7 @@ const Add = () => {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">ลองจิจูด</span>
+              <span className="label-text">Longitude</span>
             </label>
             <input
               type="text"
@@ -111,15 +112,29 @@ const Add = () => {
           </div>
           <div className="form-control">
             <label className="label">
-              <span className="label-text">ระยะการจัดส่ง (กม.)</span>
+              <span className="label-text">Delivery Radius</span>
             </label>
             <input
               type="text"
-              placeholder="ระยะการจัดส่ง"
+              placeholder="ระยะการจัดส่ง (กม.)"
               className="input input-bordered"
               required
               name="deliveryRadius"
               value={store.deliveryRadius}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Direction</span>
+            </label>
+            <input
+              type="text"
+              placeholder="URL พิกัด"
+              className="input input-bordered"
+              required
+              name="direction"
+              value={store.direction}
               onChange={handleChange}
             />
           </div>
