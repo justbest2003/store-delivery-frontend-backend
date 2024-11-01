@@ -23,19 +23,10 @@ const Edit = () => {
       const response = await StoreService.getStoreById(id);
       if (response.status === 200) {
         setStore(response.data);
-        // ตรวจสอบว่า user.id ตรงกับ store.userId หรือไม่
-        if (user.id !== response.data.userId) {
-          Swal.fire({
-            title: "Access Denied",
-            text: "You do not have permission to edit this store.",
-            icon: "error",
-          });
-          navigate("/"); // เปลี่ยนเส้นทางไปยังหน้าอื่น
-        }
       }
     };
     fetchStore();
-  }, [id, user, navigate]);
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,7 +40,7 @@ const Edit = () => {
         const response = await StoreService.editStore(id, storeWithUser);
         if (response.status === 200) {
             Swal.fire({
-                title: "Restaurant Updated",
+                title: "Store Updated",
                 text: response.data.message,
                 icon: "success", 
             });
@@ -57,7 +48,7 @@ const Edit = () => {
         }
     } catch (error) {
         Swal.fire({
-            title: "Restaurant Update Failed",
+            title: "Store Update Failed",
             text: error?.response?.data?.message || error.message,
             icon: "error",
         });

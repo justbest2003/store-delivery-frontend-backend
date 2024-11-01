@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import Logo from "../assets/Store-Logo.png";
 import UserProfile from "./UserProfile";
 import LoginButton from "./LoginButton";
@@ -10,13 +10,11 @@ const Navbar = () => {
 
   const menus = {
     ROLES_ADMIN: [
+      { name: "จัดการร้านค้า", link: "/storelist" },
       { name: "เพิ่มร้านค้า", link: "/add" },
     ],
-    ROLES_MODERATOR: [
-      { name: "เพิ่มข้อมูลอาจารย์", link: "/add" },
-    ],
+    ROLES_MODERATOR: [{ name: "", link: "" }],
     ROLES_USER: [],
-    
   };
 
   const roleAbbreviations = {
@@ -49,30 +47,38 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
           >
-            <li><a href='/'>ค้นหาร้านค้า</a></li>
+            <li>
+              <a href="/">ค้นหาร้านค้า</a>
+            </li>
             {user &&
-            menus[user.roles[0]].map((menuItem) => (
-              <li key={menuItem.name}>
-                <a href={menuItem.link} className='text-red-400 underline'>{menuItem.name}</a>
-              </li>
-            ))}
-            
+              menus[user.roles[0]].map((menuItem) => (
+                <li key={menuItem.name}>
+                  <a href={menuItem.link} className="text-red-400 underline">
+                    {menuItem.name}
+                  </a>
+                </li>
+              ))}
           </ul>
         </div>
-        <a href='/'>
-        <img src={Logo} alt="NPRU Logo" className="h-20 w-20 "/></a>
+        <a href="/">
+          <img src={Logo} alt="NPRU Logo" className="h-20 w-20 " />
+        </a>
       </div>
 
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1 space-x-12 font-bold">
-        { <li>
-            <a href="/">ค้นหาร้านค้า</a>
-          </li> }
+          {
+            <li>
+              <a href="/">ค้นหาร้านค้า</a>
+            </li>
+          }
 
           {user &&
             menus[user.roles[0]].map((menuItem) => (
               <li key={menuItem.name}>
-                <a href={menuItem.link} className='text-red-600 underline'>{menuItem.name}</a>
+                <a href={menuItem.link} className="text-red-600 underline">
+                  {menuItem.name}
+                </a>
               </li>
             ))}
         </ul>
@@ -83,8 +89,12 @@ const Navbar = () => {
         {user && (
           <div className="flex flex-col items-center">
             <UserProfile /> {/* รูปอยู่ด้านบนสุด */}
-            <div className="text-center mt-2"> {/* มีการเพิ่ม mt-2 เพื่อเว้นระยะห่าง */}
-              <span>Welcome: <span className="font-medium">{user.username}</span></span>
+            <div className="text-center mt-2">
+              {" "}
+              {/* มีการเพิ่ม mt-2 เพื่อเว้นระยะห่าง */}
+              <span>
+                Welcome: <span className="font-medium">{user.username}</span>
+              </span>
               <div className="space-x-1 font-normal mt-1">
                 {user.roles.map((role, index) => (
                   <span

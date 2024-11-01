@@ -28,9 +28,9 @@ const MapComponent = ({
   useEffect(() => {
     const fetchStores = async () => {
       try {
-        const response = await StoreService.getAllStore(); // Use StoreService to fetch stores
+        const response = await StoreService.getAllStore();
         if (response.status === 200) {
-          setStores(response.data); // Assuming the response contains data
+          setStores(response.data);
         }
       } catch (error) {
         console.error("Error fetching stores:", error);

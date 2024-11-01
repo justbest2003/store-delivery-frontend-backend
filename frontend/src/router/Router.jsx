@@ -5,10 +5,13 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Add from "../pages/Add";
 import Edit from "../pages/Edit";
+import StoreList from "../pages/StoreList";
 
+//Protect Router
 import ProtectAdminOrMod from "../pages/ProtectAdminOrMod";
 import ProtectRegister from "../pages/ProtectRegister";
-
+import ProtectStore from "../pages/ProtectStore";
+import NotAllowed from "../pages/NotAllowed";
 
 const router = createBrowserRouter([
   {
@@ -43,11 +46,26 @@ const router = createBrowserRouter([
         path: "/edit/:id",
         element: (
           <ProtectAdminOrMod>
+            <ProtectStore>
             <Edit />
-            </ProtectAdminOrMod>
+            </ProtectStore>
+          </ProtectAdminOrMod>
         ),
       },
+      {
+        path: "/storelist",
+        element: (
+          <ProtectAdminOrMod>
+            <StoreList />
+          </ProtectAdminOrMod>
+        ),
+      },
+      {
+        path: "/notallowed",
+        element: <NotAllowed />,
+      },
     ],
+    
   },
 ]);
 
